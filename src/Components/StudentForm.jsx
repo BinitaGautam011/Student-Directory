@@ -42,89 +42,93 @@ const StudentForm = ({ onAddStudent }) => {
   };
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h3>Add Student to the Directory</h3>
-      {error.name && (
-        <span
-          style={{
-            color: "red",
-            textAlign: "center",
-            fontSize: "0.75 rem",
-          }}
-        >
-          {error.name}
-        </span>
-      )}{" "}
-      <br />
-      <label htmlFor="name">Name : </label>
-      <input
-        className={error.name ? "input-error" : ""}
-        type="text"
-        placeholder="Enter student name"
-        value={name}
-        onChange={(e) => {
-          setName(e.target.value);
-          setError({ ...error, name: false });
-        }}
-      />
-      <br />
-      {error.course && (
-        <span
-          style={{
-            color: "red",
-            textAlign: "center",
-            fontSize: "0.75 rem",
-          }}
-        >
-          {error.course}
-        </span>
-      )}
-      <br />
-      <label htmlFor="course">Course : </label>
-      <select
-        className={error.course ? "input-error:" : ""}
-        value={course}
-        onChange={(e) => {
-          setCourse(e.target.value);
-          setError({ ...error, course: false });
+      <div
+        style={{
+          height: "500px",
+          width: "300px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
         }}
       >
-        <option value="" disabled hidden>
-          Select the course
-        </option>
-        <option value="csit">Bsc.CSIT</option>
-        <option value="bca">BCA</option>
-        <option value="datascience">Data-Science</option>
-        <option value="bbs">BBS</option>
-        <option value="bba">BBA</option>
-        <option value="bhm">BHM</option>
-        <option value="bsw">BSW</option>
-      </select>
-      <br />
-      {error.grade && (
-        <span
-          style={{
-            color: "red",
-            textAlign: "center",
-            fontSize: "0.75 rem",
+        <h3>Add Student to the Directory</h3>
+        {error.name && (
+          <span
+            style={{
+              color: "red",
+              //   textAlign: "center",
+              fontSize: "0.75 rem",
+            }}
+          >
+            {error.name}
+          </span>
+        )}{" "}
+        <label htmlFor="name">Name : </label>
+        <input
+          className={error.name ? "input-error" : ""}
+          type="text"
+          placeholder="Enter student name"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+            setError({ ...error, name: false });
+          }}
+        />
+        {error.course && (
+          <span
+            style={{
+              color: "red",
+              //   textAlign: "center",
+              fontSize: "0.75 rem",
+            }}
+          >
+            {error.course}
+          </span>
+        )}
+        <label htmlFor="course">Course : </label>
+        <select
+          className={error.course ? "input-error:" : ""}
+          value={course}
+          onChange={(e) => {
+            setCourse(e.target.value);
+            setError({ ...error, course: false });
           }}
         >
-          {error.grade}
-        </span>
-      )}
-      <br />
-      <label htmlFor="grade">Grade : </label>
-      <input
-        className={error.grade ? "input-error" : ""}
-        type="number"
-        placeholder="Enter your grade"
-        value={grade}
-        onChange={(e) => {
-          setGrade(e.target.value);
-          setError({ ...error, grade: false });
-        }}
-      />
-      <br /> <br />
-      <button onClick={() => {}}>Add ~_~</button>
+          <option value="" disabled hidden>
+            Select the course
+          </option>
+          <option value="csit">Bsc.CSIT</option>
+          <option value="bca">BCA</option>
+          <option value="datascience">Data-Science</option>
+          <option value="bbs">BBS</option>
+          <option value="bba">BBA</option>
+          <option value="bhm">BHM</option>
+          <option value="bsw">BSW</option>
+        </select>
+        {error.grade && (
+          <span
+            style={{
+              color: "red",
+              //   textAlign: "center",
+              fontSize: "0.75 rem",
+            }}
+          >
+            {error.grade}
+          </span>
+        )}
+        <label htmlFor="grade">Grade : </label>
+        <input
+          className={error.grade ? "input-error" : ""}
+          type="number"
+          placeholder="Enter your grade"
+          value={grade}
+          onChange={(e) => {
+            setGrade(e.target.value);
+            setError({ ...error, grade: false });
+          }}
+        />
+        <button onClick={() => {}}>Add ~_~</button>
+      </div>
     </form>
   );
 };
