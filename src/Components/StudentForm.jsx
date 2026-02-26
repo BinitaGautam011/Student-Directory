@@ -1,135 +1,84 @@
 import { useState } from "react";
+import Button from "./Button";
 
-const StudentForm = ({ onAddStudent }) => {
+const StudentForm = ({ onAddStudent, onClose }) => {
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
-  const [grade, setGrade] = useState(0);
-  const [present, isPresent] = useState(true);
-  const [error, setError] = useState({});
+  const [grade, setGrade] = useState("");
+  const [isPresent, setIsPresent] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newErrors = {};
-    if (!name.trim()) {
-      newErrors.name = "Name is required";
-    }
-    if (!course) {
-      newErrors.course = "Course is required";
-    }
-    const gradeNum = parseFloat(grade);
-    if (grade === "") {
-      newErrors.grade = "Grade is required";
-    } else if (gradeNum > 100 || gradeNum < 0) {
-      newErrors.grade = "Grade must be between 0 and 100";
-    }
 
-    if (Object.keys(newErrors).length > 0) {
-      setError(newErrors);
-      return;
-    }
     const newStudent = {
       id: Date.now(),
-      name: name.trim(),
-      course: course,
-      grade: gradeNum,
-      status: "Present",
+      name,
+      course,
+      grade: Number(grade),
+      status: isPresent ? "Present" : "Absent",
     };
+
     onAddStudent(newStudent);
-    setName("");
-    setCourse("");
-    setGrade("");
-    setError({});
   };
+
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <div
-        style={{
-          height: "500px",
-          width: "300px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <h3>Add Student to the Directory</h3>
-        {error.name && (
-          <span
-            style={{
-              color: "red",
-              //   textAlign: "center",
-              fontSize: "0.75 rem",
-            }}
-          >
-            {error.name}
-          </span>
-        )}{" "}
-        <label htmlFor="name">Name : </label>
-        <input
-          className={error.name ? "input-error" : ""}
-          type="text"
-          placeholder="Enter student name"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-            setError({ ...error, name: false });
-          }}
-        />
-        {error.course && (
-          <span
-            style={{
-              color: "red",
-              //   textAlign: "center",
-              fontSize: "0.75 rem",
-            }}
-          >
-            {error.course}
-          </span>
-        )}
-        <label htmlFor="course">Course : </label>
-        <select
-          className={error.course ? "input-error:" : ""}
-          value={course}
-          onChange={(e) => {
-            setCourse(e.target.value);
-            setError({ ...error, course: false });
-          }}
+    <div className="modal-overlay">
+      <div className="modal">
+        <Button
+          variant="danger"
+          onClick={onClose}
+          style={{ position: "absolute", top: 10, right: 12 }}
         >
-          <option value="" disabled hidden>
-            Select the course
-          </option>
-          <option value="csit">Bsc.CSIT</option>
-          <option value="bca">BCA</option>
-          <option value="datascience">Data-Science</option>
-          <option value="bbs">BBS</option>
-          <option value="bba">BBA</option>
-          <option value="bhm">BHM</option>
-          <option value="bsw">BSW</option>
-        </select>
-        {error.grade && (
-          <span
-            style={{
-              color: "red",
-              //   textAlign: "center",
-              fontSize: "0.75 rem",
-            }}
+          ✕
+        </Button>
+
+        <h2>Add Student</h2>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Student Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+
+          <select
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            required
           >
-            {error.grade}
-          </span>
-        )}
-        <label htmlFor="grade">Grade : </label>
-        <input
-          className={error.grade ? "input-error" : ""}
-          type="number"
-          placeholder="Enter your grade"
-          value={grade}
-          onChange={(e) => {
-            setGrade(e.target.value);
-            setError({ ...error, grade: false });
-          }}
-        />
-        <button onClick={() => {}}>Add ~_~</button>
+            <option value="">Select Course</option>
+            <option value="csit">BSc.CSIT</option>
+            <option value="bca">BCA</option>
+            <option value="bba">BBA</option>
+          </select>
+
+          <input
+            type="number"
+            placeholder="Grade"
+            value={grade}
+            onChange={(e) => setGrade(e.target.value)}
+            required
+          />
+
+          <div className="form-buttons">
+            <Button
+              type="button"
+              variant={isPresent ? "success" : "neutral"}
+              onClick={() => setIsPresent(!isPresent)}
+            >
+              Status: {isPresent ? "Present" : "Absent"}
+            </Button>
+
+            <Button type="submit" variant="primary">
+              Save Student
+            </Button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
+
 export default StudentForm;
